@@ -77,7 +77,7 @@
 <body>
 
     <div class="container">
-        <h2>Engineering Challenge</h2>
+        <h2>Bajaj Full Stack Engineering Challenge</h2>
         <textarea id="jsonInput" placeholder="Enter JSON here...">{"data": ["A->B", "A->C", "B->D", "X->Y", "Y->Z", "Z->X"]}</textarea>
         <button onclick="submitData()">Submit & Process</button>
         <div id="error" class="error"></div>
@@ -85,8 +85,8 @@
     </div>
 
     <script>
-        // REPLACE THIS WITH YOUR RENDER LIVE URL (Do not forget /bfhl)
-        const API_URL = 'http://localhost:3000/bfhl'; 
+        
+        const API_URL = 'https://bajaj-finserv-health-t469.onrender.com/bfhl'; 
 
         async function submitData() {
             const output = document.getElementById('output');

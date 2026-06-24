@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bajaj Full Stack Engineering Challenge</title>
+    <style>
+        :root {
+            --primary: #0052cc;
+            --bg: #f4f7f9;
+            --card-bg: #ffffff;
+            --text: #2c3e50;
+        }
+
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: var(--bg); 
+            color: var(--text);
+            display: flex; 
+            justify-content: center; 
+            padding: 40px 20px;
+            margin: 0;
+        }
+
+        .container { 
+            background: var(--card-bg); 
+            padding: 40px; 
+            border-radius: 16px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08); 
+            width: 100%; 
+            max-width: 650px; 
+        }
+
+        h2 { margin-top: 0; color: #172b4d; text-align: center; }
+        
+        textarea { 
+            width: 100%; 
+            height: 150px; 
+            padding: 15px; 
+            border: 2px solid #dfe1e6; 
+            border-radius: 8px; 
+            font-family: 'Courier New', Courier, monospace; 
+            box-sizing: border-box; 
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        button { 
+            background-color: var(--primary); 
+            color: white; 
+            padding: 14px; 
+            border: none; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-size: 16px; 
+            font-weight: 600;
+            width: 100%; 
+            transition: background 0.3s ease;
+        }
+
+        button:hover { background-color: #0747a6; }
+
+        pre { 
+            background: #282c34; 
+            color: #abb2bf; 
+            padding: 20px; 
+            border-radius: 8px; 
+            overflow-x: auto; 
+            margin-top: 25px; 
+            font-size: 13px;
+            min-height: 100px;
+        }
+
+        .error { color: #de350b; margin-top: 15px; font-weight: 600; text-align: center; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Engineering Challenge</h2>
+        <textarea id="jsonInput" placeholder="Enter JSON here...">{"data": ["A->B", "A->C", "B->D", "X->Y", "Y->Z", "Z->X"]}</textarea>
+        <button onclick="submitData()">Submit & Process</button>
+        <div id="error" class="error"></div>
+        <pre id="output">Output will appear here...</pre>
+    </div>
+
+    <script>
+        // REPLACE THIS WITH YOUR RENDER LIVE URL (Do not forget /bfhl)
+        const API_URL = 'https://YOUR-APP-NAME.onrender.com/bfhl'; 
+
+        async function submitData() {
+            const output = document.getElementById('output');
+            const error = document.getElementById('error');
+            const btn = document.querySelector('button');
+            
+            error.innerText = '';
+            btn.disabled = true;
+            btn.innerText = 'Processing...';
+            
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: document.getElementById('jsonInput').value
+                });
+                
+                const result = await response.json();
+                output.innerText = JSON.stringify(result, null, 2);
+            } catch (e) {
+                error.innerText = 'Error: API connection failed. Please check your URL.';
+            } finally {
+                btn.disabled = false;
+                btn.innerText = 'Submit & Process';
+            }
+        }
+    </script>
+</body>
+</html>

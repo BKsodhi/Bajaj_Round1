@@ -67,6 +67,30 @@ app.post('/bfhl', (req, res) => {
         return { root, tree: { [root]: result.tree }, depth: result.depth };
     });
 
+    const nodesInEdges = new Set([...allNodes]);
+    const processedNodes = new Set();
+    hierarchies.forEach(h => {
+        function mark(obj) {
+            if (!obj) return;
+            for (let key in obj) {
+                processedNodes.add(key);
+                mark(obj[key]);
+            }
+        }
+        mark(h.tree);
+    });
+
+    const remaining = [...nodesInEdges].filter(n => !processedNodes.has(n));
+
+    if (remaining.length > 0) {
+        remaining.sort();
+        hierarchies.push({
+            root: remaining[0],
+            tree: {},
+            has_cycle: true
+        });
+    }
+
     const total_trees = hierarchies.filter(h => !h.has_cycle).length;
     const total_cycles = hierarchies.filter(h => h.has_cycle).length;
     
@@ -80,9 +104,9 @@ app.post('/bfhl', (req, res) => {
     });
 
     res.json({
-        user_id: "Bhavnoor_Kaur_29042005", 
-        email_id: "bhavnoor1637.be23@chitkara.edu.in", 
-        college_roll_number: "2310991637", 
+        user_id: "Bhavnoorkaur_29042005",
+        email_id: "bhavnoor1637.be23@chitkara.edu.in",
+        college_roll_number: "2310991637",
         hierarchies,
         invalid_entries,
         duplicate_edges,
